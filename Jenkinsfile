@@ -25,12 +25,12 @@ pipeline {
         }
      stage('List Docker Images after Build') {
             steps {
-                sh 'docker images'
+                sh 'sudo docker images'
             }
         }
       stage('Remove Images after push') {
             steps {
-                sh 'docker rmi ${IMAGE_NAME}:Version${BUILD_NUMBER}'
+                sh 'sudo docker rmi ${IMAGE_NAME}:Version${BUILD_NUMBER}'
             }
         } 
     }
