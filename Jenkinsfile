@@ -1,5 +1,10 @@
 pipeline {    
     agent any 
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('kuberaghu')
+        IMAGE_NAME = "kuberaghu/dockerjenkins" 
+    }
    
     stages {   
         stage('List Docker Images before Build') {
@@ -9,8 +14,8 @@ pipeline {
         }
       stage('Tag and Push Docker Images') {
             steps {
-                sh 'docker build -t ${ImageName}:${BUILD_NUMBER} .'
-                sh 'docker push ${ImageName}:${BUILD_NUMBER}'
+                sh 'docker build -t ${IMAGE_NAME}:Version${BUILD_NUMBER} .'
+                sh 'docker push ${IMAGE_NAME}:Version${BUILD_NUMBER}'
             }
         }
      stage('List Docker Images after Build') {
@@ -20,7 +25,7 @@ pipeline {
         }
       stage('Remove Images after push') {
             steps {
-                sh 'docker rmi ${ImageName}:${BUILD_NUMBER}'
+                sh 'docker rmi ${IMAGE_NAME}:Version${BUILD_NUMBER}'
             }
         } 
     }
