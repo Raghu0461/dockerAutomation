@@ -9,11 +9,6 @@ pipeline {
     }
    
     stages {   
-        stage('List Docker Images before Build') {
-            steps {
-                sh 'sudo docker images'
-            }
-        }
        stage('Building our image') { 
             steps { 
                 script { 
