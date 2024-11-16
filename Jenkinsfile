@@ -2,8 +2,10 @@ pipeline {
     agent any 
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('kuberaghu')
-        IMAGE_NAME = "kuberaghu/dockerjenkins" 
+        registry = "kuberaghu/jenkinsdocker" 
+        registryCredential = 'kuberaghu' 
+        dockerImage = '' 
+        
     }
    
     stages {   
@@ -12,15 +14,20 @@ pipeline {
                 sh 'sudo docker images'
             }
         }
-       stage('login to dockerhub') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
+       stage('Building our image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            } 
         }
-      stage('Tag and Push Docker Images') {
-            steps {
-                sh 'sudo docker build -t ${IMAGE_NAME}:Version${BUILD_NUMBER} .'
-                sh 'sudo docker push ${IMAGE_NAME}:Version${BUILD_NUMBER}'
+      stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
             }
         }
      stage('List Docker Images after Build') {
@@ -30,7 +37,7 @@ pipeline {
         }
       stage('Remove Images after push') {
             steps {
-                sh 'sudo docker rmi ${IMAGE_NAME}:Version${BUILD_NUMBER}'
+                sh "docker rmi $registry:$BUILD_NUMBER" 
             }
         } 
     }
