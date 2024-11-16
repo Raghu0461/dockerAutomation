@@ -27,12 +27,16 @@ pipeline {
         }
      stage('List Docker Images after Build') {
             steps {
-                sh 'sudo docker images'
+                script {
+                    sh 'docker images'
+                }
             }
         }
       stage('Remove Images after push') {
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER" 
+                script{
+                    sh "docker rmi $registry:$BUILD_NUMBER" 
+                }    
             }
         } 
     }
