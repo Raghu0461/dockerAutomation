@@ -4,10 +4,22 @@ pipeline {
     environment {
         registry = "kuberaghu/jenkinsdocker" 
         registryCredential = 'kuberaghu'
+		mavenHome  = tool 'myMaven'
+		PATH = "$mavenHome/bin:$PATH"
         
     }
    
     stages {   
+       stage('Checkout') {
+			steps {
+				echo "$PATH"
+				echo "$env.BUILD_NUMBER"
+				echo "$env.BUILD_ID"
+				echo "$env.JOB_NAME"
+				echo "$env.BUILD_TAG"
+				echo "$env.BUILD_URL"
+			}
+		}
        stage('Building our image') { 
             steps { 
                 script { 
