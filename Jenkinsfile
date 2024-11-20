@@ -36,7 +36,7 @@ pipeline {
       stage('Remove Images after push') {
             steps {
                 script{
-                    //sh "docker rmi $registry:$BUILD_NUMBER" 
+                    // sh "docker rmi $registry:$BUILD_NUMBER" 
                 }    
             }
         } 
