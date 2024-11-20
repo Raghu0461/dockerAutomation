@@ -4,8 +4,8 @@ pipeline {
     environment {
         registry = "kuberaghu/jenkinsdocker" 
         registryCredential = 'kuberaghu'
-		mavenHome  = tool 'myMaven'
-		PATH = "$mavenHome/bin:$PATH"
+        mavenHome  = tool 'myMaven'
+	PATH = "$mavenHome/bin:$PATH"
         
     }
    
