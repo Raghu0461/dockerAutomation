@@ -18,6 +18,7 @@ pipeline {
 				echo "$env.JOB_NAME"
 				echo "$env.BUILD_TAG"
 				echo "$env.BUILD_URL"
+				sh "mvn --version"
 			}
 		}
        stage('Building our image') { 
