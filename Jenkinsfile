@@ -11,7 +11,7 @@ pipeline {
        stage('Building our image') { 
             steps { 
                 script { 
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                    dockerImage = docker.build registry + ":V$BUILD_NUMBER" 
                 }
             } 
         }
@@ -34,7 +34,7 @@ pipeline {
       stage('Remove Images after push') {
            steps {
                 script{
-                    sh "docker rmi $registry:$BUILD_NUMBER" 
+                    sh "docker rmi $registry:V$BUILD_NUMBER" 
                 }    
             }
         } 
